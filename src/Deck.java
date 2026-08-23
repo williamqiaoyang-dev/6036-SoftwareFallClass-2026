@@ -6,10 +6,12 @@ public class Deck {
   public final Stack<Card> deck;
 
   public Deck(int cardCount) {
+    cardCount = (int) (Math.ceil(cardCount / 4d) * 4);
+
     ArrayList<Card> temporaryDeck = new ArrayList<>();
     for (int i = 0; i < cardCount / 4; i++) {
       for (int j = 0; j < 4; j++) {
-        temporaryDeck.add(new Card(i, j));
+        temporaryDeck.add(new Card(j, i + 1));
       }
     }
 

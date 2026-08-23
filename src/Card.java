@@ -9,7 +9,12 @@ public class Card {
 
     @Override
     public String toString() {
-        return String.format("Suit: %d, Number: %d", suit, number);
-
+        return String.format("%d of %s", number, switch (suit) {
+          case 0 -> "Hearts";
+          case 1 -> "Diamonds";
+          case 2 -> "Clubs";
+          case 3 -> "Spades";
+          default -> "";
+        });
     }
 }
