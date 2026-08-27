@@ -1,21 +1,20 @@
-import cv2, math
+import cv2
+import numpy as np
 
 cap = cv2.VideoCapture(0)
+
+targetList = np.tile((46 / 2, 0.4 * 255, 0.65 * 255), (480, 640, 1))
 
 while cap.isOpened():
   ok, frame = cap.read()
 
-  labFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
-
-  for i in range(len(frame)):
-    for j in range(len(frame[0])):
-      if math.dist(labFrame[i][j], (153.55, 130.03, 105.12)) < 2.2:
-        frame[i, j] = [0, 0, 255]
-        print("E")
+  frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HLS).astype(np.float64)
+  frame[np.linalg.norm(frame - targetList, axis=-1) < 45] *= [0.06, 1.5, 1]
+  frame = cv2.cvtColor(frame.astype(np.uint8), cv2.COLOR_HLS2BGR)
 
   cv2.imshow("Capture", frame)
 
-  if cv2.waitKey(0) & 0xFF == ord('q'):
+  if cv2.waitKey(1) & 0xFF == ord('q'):
     break
 
 cap.release()
