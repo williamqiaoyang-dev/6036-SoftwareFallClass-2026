@@ -1,15 +1,23 @@
 from os import environ
-import cv2, threading, copy
+import cv2, threading, copy, random, math
 
 environ["OPENCV_LOG_LEVEL"] = "ERROR"
 
 stop = False
 parameters = {
-  "gain": 0,
-  "exposure": 0,
+  "gain": random.random() * 4,
+  "exposure": math.floor(random.random() * 1000),
   "orientation": -100,
   "resolution": "640x480"
 }
+
+match math.floor(random.random() * 4):
+  case 0:
+    parameters["orientation"] = cv2.ROTATE_90_CLOCKWISE
+  case 1:
+    parameters["orientation"] = cv2.ROTATE_180
+  case 2:
+    parameters["orientation"] = cv2.ROTATE_90_COUNTERCLOCKWISE
 
 lastParams = copy.deepcopy(parameters)
 
